@@ -1,0 +1,22 @@
+/*
+*
+Simple & temporary style for assignment 
+*
+*/
+body{
+    font-family: 'Prompt', sans-serif; 
+    font-weight: 300;
+}
+textarea{
+    display:block; 
+    width:100%; 
+    margin-bottom:10px;
+}
+strong{
+    text-transform: uppercase; 
+    font-weight: 500;
+}
+.divWrapper{
+    max-width: 360px; 
+    margin:30px auto;
+}

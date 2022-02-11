@@ -1,44 +1,60 @@
-<?php 
-// Hello Opendream, I'm Kwansuda Tarn Tusamran (aka ninninny :D)
-?>
+
 <html>
     <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php // Hello Opendream, I'm Kwansuda Tarn Tusamran (aka ninninny :D)
+    include 'assets/inc/head.php';
+    ?>
         <title>ninninny : Solution 1</title>
-        <style>
-            .divWrapper{max-width: 360px; margin:30px auto;}
-        </style>
     </head>
     <body>
         <div class="divWrapper">
             <h1>Solution 1 : FizzBuzz</h1>
-            <p>Please fill in the number between 1 to 100 and let's see what will happen.</p>
+            <p><strong>Please fill in the number between 1 to 100.</strong> Use comma (,) to separate the numbers in case you want to try it in a set. Let's see what will happen.</p>
             <form method="post">
-            <input type="text" name="thenumber">
+            <textarea name="thenumber"></textarea>
             <button>TRY IT!</button>
             </form>
             <div class="respondText">
-                <?php respondTheNumber($_POST['thenumber']); ?>
+                <?php if(isset($_POST['thenumber'])){
+                    respondTheNumbers($_POST['thenumber']);
+                } ?>
             </div>
         </div>
     </body>
 </html>
 
-<?php 
-function respondTheNumber($num){
+<?php
+// Normally I'll separate it to the new file, but I keep it here for your more comfortable checking. 
+
+function respondTheNumbers($input){
+
     $respondText = '';
-    if(!$num){
-        $respondText = '';
-    } elseif(!is_numeric($num) || 1>$num || $num>100){
-        $respondText = 'Your input is not a number between 1 to 100, try again.';
-    } elseif( $num%3==0 && $num%5==0){
-        $respondText = 'FizzBuzz';
-    } elseif($num%3==0){
-        $respondText = 'Fizz';
-    } elseif($num%5==0){
-        $respondText = 'Buzz';
-    } else{
-        $respondText = $num;
+
+    if(!$input){
+        $respondText = 'Please fill in the number between 1 to 100';
+    } else {
+
+    $arrString = preg_replace('/\s+/', '', $input); 
+    $arrNum = explode(',',$arrString);
+
+        foreach($arrNum as $key=>$num){
+            if(!$key==0){
+                $respondText .= ', ';
+            }
+            if(!is_numeric($num)){
+                $respondText .= 'NaN';
+            } elseif(1>$num || $num>100){
+                $respondText .= 'Not in Range';
+            } elseif($num%3==0 && $num%5==0){
+                $respondText .= 'FizzBuzz';
+            } elseif($num%3==0){
+                $respondText .= 'Fizz';
+            } elseif($num%5==0){
+                $respondText .= 'Buzz';
+            } else {
+                $respondText .= $num;
+            }
+        }
     }
     echo $respondText;
 }
