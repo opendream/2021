@@ -15,9 +15,7 @@
             <button>TRY IT!</button>
             </form>
             <div class="respondText">
-                <?php if(isset($_POST['thenumber'])){
-                    respondTheNumbers($_POST['thenumber']);
-                } ?>
+                <?php if(isset($_POST['thenumber'])) respondTheNumbers($_POST['thenumber']); ?>
             </div>
         </div>
     </body>
@@ -30,32 +28,38 @@ function respondTheNumbers($input){
 
     $respondText = '';
 
-    if(!$input){
+    if(!$input):
         $respondText = 'Please fill in the number between 1 to 100';
-    } else {
+    else:
 
     $arrString = preg_replace('/\s+/', '', $input); 
     $arrNum = explode(',',$arrString);
 
-        foreach($arrNum as $key=>$num){
-            if(!$key==0){
-                $respondText .= ', ';
-            }
-            if(!is_numeric($num)){
+        foreach($arrNum as $key=>$num):
+
+            if(!$key==0) $respondText .= ', ';
+            
+            if(!is_numeric($num)): 
                 $respondText .= 'NaN';
-            } elseif(1>$num || $num>100){
+
+            elseif(1>$num || $num>100):
                 $respondText .= 'Not in Range';
-            } elseif($num%3==0 && $num%5==0){
+
+            elseif($num%3==0 && $num%5==0):
                 $respondText .= 'FizzBuzz';
-            } elseif($num%3==0){
+
+            elseif($num%3==0):
                 $respondText .= 'Fizz';
-            } elseif($num%5==0){
+
+            elseif($num%5==0):
                 $respondText .= 'Buzz';
-            } else {
+
+            else :
                 $respondText .= $num;
-            }
-        }
-    }
+            endif;
+
+        endforeach;
+    endif;
     echo $respondText;
 }
 ?>
