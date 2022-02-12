@@ -17,6 +17,25 @@ strong{
     font-weight: 500;
 }
 .divWrapper{
-    max-width: 360px; 
+    max-width: 450px; 
     margin:30px auto;
+}
+.mainNav{
+    display:block;
+    position:fixed;
+    width: 100%;
+    bottom:0;
+}
+.mainNav nav{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.mainNav a{
+    display: block;
+    padding:16px;
+    text-decoration: none;
+    font-weight: 500;
+    text-align: center;
+    text-transform: uppercase;
 }

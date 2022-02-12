@@ -1,9 +1,10 @@
-
+<?php 
+    include 'assets/inc/head.php';
+    include 'assets/inc/mainNav.php';
+    ?>
 <html>
     <head>
-    <?php // Hello Opendream, I'm Kwansuda Tarn Tusamran (aka ninninny :D)
-    include 'assets/inc/head.php';
-    ?>
+    <?php echo mainHead(); ?>
         <title>ninninny : Solution 1</title>
     </head>
     <body>
@@ -18,6 +19,7 @@
                 <?php if(isset($_POST['thenumber'])) respondTheNumbers($_POST['thenumber']); ?>
             </div>
         </div>
+        <?php echo mainNav(); ?>
     </body>
 </html>
 
@@ -39,23 +41,18 @@ function respondTheNumbers($input){
 
             if(!$key==0) $respondText .= ', ';
             
-            if(!is_numeric($num)): 
-                $respondText .= 'NaN';
+            if(!is_numeric($num)): $respondText .= 'NaN';
 
-            elseif(1>$num || $num>100):
-                $respondText .= 'Not in Range';
+            elseif(1>$num || $num>100): $respondText .= 'Not in Range';
 
-            elseif($num%3==0 && $num%5==0):
-                $respondText .= 'FizzBuzz';
+            elseif($num%3==0 && $num%5==0): $respondText .= 'FizzBuzz';
 
-            elseif($num%3==0):
-                $respondText .= 'Fizz';
+            elseif($num%3==0): $respondText .= 'Fizz';
 
-            elseif($num%5==0):
-                $respondText .= 'Buzz';
+            elseif($num%5==0): $respondText .= 'Buzz';
 
-            else :
-                $respondText .= $num;
+            else: $respondText .= $num;
+
             endif;
 
         endforeach;
