@@ -11,8 +11,8 @@ def count_string(word):
             length += 1
     ans = ''
     for index in range(length):
-
         ans = ans + (char_list[index]) + str(count[index])
+        
     print(ans)
 
 
