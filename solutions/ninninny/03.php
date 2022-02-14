@@ -13,7 +13,7 @@
             <p><strong>Please fill in some words or sentences</strong> and I'll count its characters for you.</p>
             <form method="post">
             <textarea name="input"></textarea>
-            <button>TRY IT!</button>
+            <button>COUNT IT!</button>
             </form>
             <div class="respondText">
             <?php if(isset($_POST['input'])): ?>
@@ -44,7 +44,7 @@ function characterCount($input){
 
         for($i=0;$i<mb_strlen($arrString);$i++) : 
             $char = mb_substr($arrString, $i, 1);
-            
+
             if(!in_array($char, $stakeArr)):
                 array_push($stakeArr, $char);
                 array_push($stakeArr, 1);

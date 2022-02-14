@@ -25,6 +25,7 @@
                         <div>Output:</div> 
                         <?php echo thaiWordSorting($_POST['theword']); ?>
                     </div>
+                    <div class="disclaimer">Sorting Logic by <a href="https://zrevig.medium.com/%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B8%95%E0%B8%B1%E0%B8%A7%E0%B8%AB%E0%B8%99%E0%B8%B1%E0%B8%87%E0%B8%AA%E0%B8%B7%E0%B8%AD%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%E0%B8%94%E0%B9%89%E0%B8%A7%E0%B8%A2-php-46af43838bf2" target="_blank" rel="noopener noreferrer">Tanin Srivaraphong</a></div>
                 <?php endif; ?>
             </div>
         </div>
@@ -36,67 +37,42 @@
 // Normally I'll separate it to the new file, but I keep it here for your more comfortable checking. 
 
 function thaiWordSorting($input){
-
-    if($input): 
-        $arrString = preg_replace('/\s+/', '', $input); 
-        $arrWord = explode(',',$arrString);
-        usort($arrWord, 'customSort');
-        
+    if($input):
+        $arrWords = cleanArray($input);
+        usort($arrWords, 'th_strcoll');        
     endif;
-    return displayArray($arrWord);
-    //return '<pre>'; print_r($newArray); echo '</pre>';
+    return displayArray($arrWords);
 }
 
-
-/*function prepareArray($array){
-    $thaiChars = array('ก','ข','ฃ','ค','ฅ','ฆ','ง','จ','ฉ','ช','ซ','ฌ','ญ','ฎ','ฏ','ฐ','ฑ','ฒ','ณ','ด','ต','ถ','ท','ธ','น','บ','ป','ผ','ฝ','พ','ฟ','ภ','ม','ย','ร','ฤ','ล','ฦ','ว','ศ','ษ','ส','ห','ฬ','อ','ฮ');
-    $newArray = array();
-    $arrString = preg_replace('/\s+/', '', $array); 
+function cleanArray($array){
+    $pattern = '/([0-9\@\.\;\" "])+/';
+    $arrString = preg_replace($pattern, '', $array); 
     $arrWord = explode(',',$arrString);
-
-    foreach($arrWord as $word):
-        $chars = '';
-
-        for($i=0; $i<mb_strlen($word); $i++):
-            $c = mb_substr($word, $i, 1);
-            if(in_array($c,$thaiChars)) $chars .= $c;
-        endfor;
-        
-        array_push($newArray, $chars);
-    endforeach;
-
-    return $newArray;
-}*/
-
-function customSort($a, $b) { // NOT YET SUCCESS
-    $charOrder = array('ก','ข','ฃ','ค','ฅ','ฆ','ง','จ','ฉ','ช','ซ','ฌ','ญ','ฎ','ฏ','ฐ','ฑ','ฒ','ณ','ด','ต','ถ','ท','ธ','น','บ','ป','ผ','ฝ','พ','ฟ','ภ','ม','ย','ร','ฤ','ล','ฦ','ว','ศ','ษ','ส','ห','ฬ','อ','ฮ');
-
-
-    for($i=0;$i<mb_strlen($a) && $i<mb_strlen($b);$i++) :
-
-        $chA = mb_substr($a, $i, 1);
-        $chB = mb_substr($b, $i, 1);
-
-        if(in_array($chA, $charOrder)): $valA = array_search($chA, $charOrder);
-        else: $chA = mb_substr($a, $i+1, 1);
-        endif;
-        
-        if(in_array($chA, $charOrder)): $valB = array_search($chB, $charOrder);
-        else: $chB = mb_substr($b, $i+1, 1);
-        endif;
-
-        if($valA == $valB) continue;
-        if($valA > $valB) return 1;
-        return -1;
-    endfor;
-
-    if(mb_strlen($a) == mb_strlen($b)) return 0;
-    if(mb_strlen($a) > mb_strlen($b))  return -1;
-    return 1;
-
+    return $arrWord;
 }
-// Modified from function
-//Ref: https://stackoverflow.com/questions/7929796/how-can-i-sort-an-array-of-utf-8-strings-in-php
+
+function th_strcoll($stringA, $stringB)
+{
+    $regex = '(^[เแโใไ]*)((.)(.*))';
+    $matchesA = $matchesB = null;
+    mb_ereg($regex, $stringA, $matchesA);
+    mb_ereg($regex, $stringB, $matchesB);
+ 
+    if ($matchesA[1] !== $matchesB[1] && $matchesA[3] === $matchesB[3]) {
+        if ($matchesA[1] === false) {
+            return -1;
+        } else if ($matchesB[1] === false) {
+            return 1;
+        } else {
+            return strcoll($matchesA[1], $matchesB[1]);
+        }
+    }
+    
+    return strcoll($matchesA[2], $matchesB[2]);
+}
+// By Tanin Srivaraphong
+//Ref: https://zrevig.medium.com/%E0%B9%80%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%87%E0%B8%95%E0%B8%B1%E0%B8%A7%E0%B8%AB%E0%B8%99%E0%B8%B1%E0%B8%87%E0%B8%AA%E0%B8%B7%E0%B8%AD%E0%B8%A0%E0%B8%B2%E0%B8%A9%E0%B8%B2%E0%B9%84%E0%B8%97%E0%B8%A2%E0%B8%94%E0%B9%89%E0%B8%A7%E0%B8%A2-php-46af43838bf2
+
 
 function displayArray($array){
     $result = '';
@@ -109,5 +85,4 @@ function displayArray($array){
         return $result;
     endif;
 }
-
 ?>
