@@ -5,4 +5,5 @@
     usort($input, 'strcoll');        //จัดเรียงค่าใน input โดยอ้างอิงจากการตั้งค่า setlocale 
     print_r($input);
 
+    
 ?>
