@@ -36,28 +36,16 @@
 function characterCount($input){
 
     $outputText = '';
-    $stakeArr = array();
+    //$stakeArr = array();
 
     if(!$input): $outputText = 'Please fill in some words';
     else:
-        $arrString = preg_replace('/\s+/', '', $input); 
-
-        for($i=0;$i<mb_strlen($arrString);$i++) : 
-            $char = mb_substr($arrString, $i, 1);
-
-            if(!in_array($char, $stakeArr)):
-                array_push($stakeArr, $char);
-                array_push($stakeArr, 1);
-            else:
-                $index = array_search($char,$stakeArr);
-                $stakeArr[$index+1] +=1;
-            endif;
-
-        endfor;
+        $arrChar = str_split($input);
+        $count = array_count_values($arrChar);
 
     endif;
 
-    $outputText = displayResult($stakeArr);
+    $outputText = displayResult($count);
     return $outputText;
 }
 
@@ -65,8 +53,8 @@ function displayResult($array){
     $result = '';
     if(!$array): return 'NULL';
     else:
-        foreach($array as $word):
-            $result .= $word;
+        foreach($array as $k=>$v):
+            $result .= $k.$v.', ';
         endforeach;
         return $result;
     endif;
